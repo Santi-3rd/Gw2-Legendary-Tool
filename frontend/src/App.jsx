@@ -1,35 +1,89 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState} from "react";
+import "./App.css";
+import { Link, Outlet, useNavigate} from "react-router-dom";
+import { createContext, useContext } from "react";
+import { api } from "./utilities.jsx";
+
+export const userContext = createContext();
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [user, setUser] = useState(null);
+  const [games, setGames] = useState([]);
+  const [icon, setIcon] = useState([]);
+
+  const navigate = useNavigate();
+
+  // const whoAmI = async() => {
+  //   let token = localStorage.getItem("token") 
+  //   console.log("Retrieved token:", token);
+  //   if (token){
+  //     api.defaults.headers.common["Authorization"] = `Token ${token}`
+  //     let response = await api.get("users/")
+  //     setUser(response.data)
+  //   }
+  //   else {
+  //     setUser(null)
+  //     navigate("/login")
+  //   }
+  // }
+
+  // useEffect(()=>{
+  //   whoAmI()
+  // }, [])
+
+  // const logOut = async() => {
+  //   let response = await api.post("users/logout/")
+  //   if(response.status === 204){
+  //     localStorage.removeItem("token")
+  //     setUser(null)
+  //     delete api.defaults.headers.common["Authorization"];
+  //     navigate("/login");
+  //   }
+  // }
+  useEffect(() => {        
+    const fetchData = async () => {
+
+      try {
+        const response = await api.get("recipes/search/");
+        console.log(response.data);
+        const response_2 = await api.get(`https://api.guildwars2.com/v2/items/${12345}`);
+        setIcon(response_2.data.icon);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div id="app">
+      <header>
+        <nav>
+          { 
+            user
+            ?
+            <>
+            <Link to="/profile">Profile</Link>
+            <button onClick={logOut}>Log out</button>
+            </>
+            :
+            <>
+            <Link to="/">Sign Up</Link>
+            <Link to="/login">Log In</Link>
+            </>
+          }
+        </nav>
+        <div>
+          <img src={`${icon}`}></img>
+        </div>
+      </header>
+      <userContext.Provider value={{ user, setUser, games, setGames }}>
+        <Outlet />
+      </userContext.Provider>
+    </div>
+  );
 }
 
 export default App

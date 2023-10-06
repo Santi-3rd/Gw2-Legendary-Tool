@@ -29,11 +29,11 @@ class Log_in(APIView):
 class Register(APIView):
     def post(self, request):
         request.data["username"] = request.data["email"]
-        request.data["name"] = request.data["name"]
+        request.data["user_name"] = request.data["user_name"]
         user = App_user.objects.create_user(**request.data)
         token = Token.objects.create(user=user)
         return Response(
-            {"user": {"email": user.email, "name": user.name}, "token": token.key}, status=HTTP_201_CREATED
+            {"user": {"email": user.email, "user_name": user.user_name}, "token": token.key}, status=HTTP_201_CREATED
         )
     
 class Info(APIView):
@@ -41,7 +41,7 @@ class Info(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        return Response({"email": request.user.email, "name":request.user.name})
+        return Response({"email": request.user.email, "user_name":request.user.user_name})
     
 
 class Log_out(APIView):
@@ -58,8 +58,8 @@ class UserName(APIView):
         if user_id is not None:
             try:
                 user = App_user.objects.get(id=user_id)
-                name = user.name
-                return Response({"name": name}, status=HTTP_200_OK)
+                user_name = user.user_name
+                return Response({"user_name": user_name}, status=HTTP_200_OK)
             except App_user.DoesNotExist:
                 return Response("User not found", status=HTTP_400_BAD_REQUEST)
         else:
