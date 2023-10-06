@@ -3,6 +3,9 @@ import "./App.css";
 import { Link, Outlet, useNavigate} from "react-router-dom";
 import { createContext, useContext } from "react";
 import { api } from "./utilities.jsx";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 
 export const userContext = createContext();
 
@@ -76,6 +79,7 @@ function App() {
           }
         </nav>
         <div>
+          
           <img src={`${icon}`}></img>
         </div>
       </header>
