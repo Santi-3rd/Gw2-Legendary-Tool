@@ -3,7 +3,6 @@ import "./App.css";
 import { Link, Outlet, useNavigate} from "react-router-dom";
 import { createContext, useContext } from "react";
 import { api } from "./utilities.jsx";
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
