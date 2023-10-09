@@ -13,7 +13,7 @@ export const LoginPage = () => {
   const logIn = async (e) => {
     e.preventDefault();
     let response = await api.post("users/login/", {
-      email: userName,
+      username: userName,
       password: password,
     })
     .catch((err) => {
@@ -24,7 +24,7 @@ export const LoginPage = () => {
     setUser(user);
     localStorage.setItem("token", token);
     api.defaults.headers.common["Authorization"] = `Token ${token}`
-    navigate("/library"); 
+    navigate("/profile"); 
   };
 
 
@@ -35,10 +35,10 @@ export const LoginPage = () => {
     <form onSubmit={(e) => logIn(e)}>
       <h5>Log In</h5>
       <input 
-        type="email"
+        // type="email"
         value={userName}
         onChange={(e) => setUserName(e.target.value)}
-        placeholder="email"
+        placeholder="User Name"
       />
       <input 
         type="password"

@@ -15,33 +15,33 @@ function App() {
 
   const navigate = useNavigate();
 
-  // const whoAmI = async() => {
-  //   let token = localStorage.getItem("token") 
-  //   console.log("Retrieved token:", token);
-  //   if (token){
-  //     api.defaults.headers.common["Authorization"] = `Token ${token}`
-  //     let response = await api.get("users/")
-  //     setUser(response.data)
-  //   }
-  //   else {
-  //     setUser(null)
-  //     navigate("/login")
-  //   }
-  // }
+  const whoAmI = async() => {
+    let token = localStorage.getItem("token") 
+    console.log("Retrieved token:", token);
+    if (token){
+      api.defaults.headers.common["Authorization"] = `Token ${token}`
+      let response = await api.get("users/")
+      setUser(response.data)
+    }
+    else {
+      setUser(null)
+      navigate("/login")
+    }
+  }
 
-  // useEffect(()=>{
-  //   whoAmI()
-  // }, [])
+  useEffect(()=>{
+    whoAmI()
+  }, [])
 
-  // const logOut = async() => {
-  //   let response = await api.post("users/logout/")
-  //   if(response.status === 204){
-  //     localStorage.removeItem("token")
-  //     setUser(null)
-  //     delete api.defaults.headers.common["Authorization"];
-  //     navigate("/login");
-  //   }
-  // }
+  const logOut = async() => {
+    let response = await api.post("users/logout/")
+    if(response.status === 204){
+      localStorage.removeItem("token")
+      setUser(null)
+      delete api.defaults.headers.common["Authorization"];
+      navigate("/login");
+    }
+  }
   useEffect(() => {        
     const fetchData = async () => {
 

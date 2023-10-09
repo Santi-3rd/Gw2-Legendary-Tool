@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { Welcome } from "../components/Welcome";
 
 export const RegisterPage = () => {
-  const [userName, setUserName] = useState("");
-  const [name, setName] = useState("")
+  const [email, setEmail] = useState("");
+  const [userName, setUserName] = useState("")
   const [password, setPassword] = useState("");
   const { setUser } = useContext(userContext);
   const navigate = useNavigate();
@@ -14,8 +14,8 @@ export const RegisterPage = () => {
   const signUp = async (e) => {
     e.preventDefault();
     let response = await api.post("users/register/", {
-      email: userName,
-      name: name,
+      email: email,
+      username: userName,
       password: password,
     })
     .catch((err) => {
@@ -38,15 +38,15 @@ export const RegisterPage = () => {
       <h5>Sign Up</h5>
       <input 
         type="email"
-        value={userName}
-        onChange={(e) => setUserName(e.target.value)}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         placeholder="email"
       />
       <input
         // user name
         type="text"  
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        value={userName}
+        onChange={(e) => setUserName(e.target.value)}
         placeholder="User Name"
       />
       <input

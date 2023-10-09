@@ -18,7 +18,7 @@ from django.http import HttpResponse
 
 class Log_in(APIView):
     def post(self, request):
-        request.data["username"] = request.data["email"]
+        request.data["username"] = request.data["username"]
         user = authenticate(**request.data)
         if user:
             token, created = Token.objects.get_or_create(user=user)
@@ -28,12 +28,12 @@ class Log_in(APIView):
         
 class Register(APIView):
     def post(self, request):
-        request.data["username"] = request.data["email"]
-        request.data["user_name"] = request.data["user_name"]
+        request.data["email"] = request.data["email"]
+        request.data["username"] = request.data["username"]
         user = App_user.objects.create_user(**request.data)
         token = Token.objects.create(user=user)
         return Response(
-            {"user": {"email": user.email, "user_name": user.user_name}, "token": token.key}, status=HTTP_201_CREATED
+            {"user": {"email": user.email, "username": user.username}, "token": token.key}, status=HTTP_201_CREATED
         )
     
 class Info(APIView):
@@ -41,8 +41,8 @@ class Info(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        return Response({"email": request.user.email, "user_name":request.user.user_name})
-    
+        return Response({"email": request.user.email, "username":request.user.user_name})
+
 
 class Log_out(APIView):
     authentication_classes = [TokenAuthentication]
@@ -58,8 +58,8 @@ class UserName(APIView):
         if user_id is not None:
             try:
                 user = App_user.objects.get(id=user_id)
-                user_name = user.user_name
-                return Response({"user_name": user_name}, status=HTTP_200_OK)
+                username = user.username
+                return Response({"username": username}, status=HTTP_200_OK)
             except App_user.DoesNotExist:
                 return Response("User not found", status=HTTP_400_BAD_REQUEST)
         else:

@@ -25,116 +25,116 @@ export const ProfilePage = () => {
     }
   }
 
-  useEffect(() => {
-    // Fetch data from the API
+  // useEffect(() => {
+  //   // Fetch data from the API
 
-    api.get('v1/collection/')
-      .then(response => {
+  //   api.get('v1/collection/')
+  //     .then(response => {
 
-        // Filter the games that have game_status as 'currently_playing'
-        const filteredGames = response.data.filter(item => item.game_status === 'currently_playing');
-        setFilteredGames(filteredGames); // Update the filteredGames state
-        console.log(filteredGames);
+  //       // Filter the games that have game_status as 'currently_playing'
+  //       const filteredGames = response.data.filter(item => item.game_status === 'currently_playing');
+  //       setFilteredGames(filteredGames); // Update the filteredGames state
+  //       console.log(filteredGames);
   
-        // Fetch additional data for each game using a loop
-        const gamePromises = filteredGames.map(game => {
-          const gameId = game.game;
-          return api.post("v1/collection/view/", { idQuery: gameId })
-            .then(igdb_response => {
-              return igdb_response.data;
-            })
-            .catch(error => {
-              console.error(`Error fetching data for Game ID ${gameId}:`, error);
-            });
-        });
+  //       // Fetch additional data for each game using a loop
+  //       const gamePromises = filteredGames.map(game => {
+  //         const gameId = game.game;
+  //         return api.post("v1/collection/view/", { idQuery: gameId })
+  //           .then(igdb_response => {
+  //             return igdb_response.data;
+  //           })
+  //           .catch(error => {
+  //             console.error(`Error fetching data for Game ID ${gameId}:`, error);
+  //           });
+  //       });
   
-        // Use Promise.all to wait for all game data requests to complete
-        Promise.all(gamePromises)
-          .then(gameDataArray => {
-            // Flatten the array of game data objects
-            const allGamesData = gameDataArray.flatMap(gameData => gameData.games);
-            setGames(allGamesData); // Update the games state with additional data
-          })
-          .catch(error => {
-            console.error('Error fetching game data:', error);
-          });
-      })
+  //       // Use Promise.all to wait for all game data requests to complete
+  //       Promise.all(gamePromises)
+  //         .then(gameDataArray => {
+  //           // Flatten the array of game data objects
+  //           const allGamesData = gameDataArray.flatMap(gameData => gameData.games);
+  //           setGames(allGamesData); // Update the games state with additional data
+  //         })
+  //         .catch(error => {
+  //           console.error('Error fetching game data:', error);
+  //         });
+  //     })
 
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
+  //     .catch(error => {
+  //       console.error('Error fetching data:', error);
+  //     });
     
-    whoAmI();
-  }, []);
+  //   whoAmI();
+  // }, []);
 
-  //SHOWS BACKLOG
-  const showBacklog = async () => {
-    setLoading(true);
-    try {
-      const backlog_response = await api.get("v1/backlog/");
+  // //SHOWS BACKLOG
+  // const showBacklog = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const backlog_response = await api.get("v1/backlog/");
   
-      const gamePromises = backlog_response.data.map(async (backlogItem) => {
-        const gameId = backlogItem.game;
-        const igdb_response = await api.post("v1/backlog/view/", { idQuery: gameId });
-        return igdb_response.data;
-      });
+  //     const gamePromises = backlog_response.data.map(async (backlogItem) => {
+  //       const gameId = backlogItem.game;
+  //       const igdb_response = await api.post("v1/backlog/view/", { idQuery: gameId });
+  //       return igdb_response.data;
+  //     });
   
-      const gameDataArray = await Promise.all(gamePromises);
+  //     const gameDataArray = await Promise.all(gamePromises);
   
-      // Flatten the array of game data objects
-      const allGamesData = gameDataArray.flatMap((gameData) => gameData.games);
+  //     // Flatten the array of game data objects
+  //     const allGamesData = gameDataArray.flatMap((gameData) => gameData.games);
       
-      setLoading(false);
-      setGames(allGamesData);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //     setLoading(false);
+  //     setGames(allGamesData);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
-  //SHOWS COLLECTION
-  const showCollection = async () => {
-    setLoading(true);
-    try {
-      const collection_response = await api.get("v1/collection/");
+  // //SHOWS COLLECTION
+  // const showCollection = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const collection_response = await api.get("v1/collection/");
   
-      const gamePromises = collection_response.data.map(async (collectionItem) => {
-        const gameId = collectionItem.game;
-        const igdb_response = await api.post("v1/collection/view/", { idQuery: gameId });
-        return igdb_response.data;
-      });
+  //     const gamePromises = collection_response.data.map(async (collectionItem) => {
+  //       const gameId = collectionItem.game;
+  //       const igdb_response = await api.post("v1/collection/view/", { idQuery: gameId });
+  //       return igdb_response.data;
+  //     });
   
-      const gameDataArray = await Promise.all(gamePromises);
+  //     const gameDataArray = await Promise.all(gamePromises);
   
-      // Flatten the array of game data objects
-      const allGamesData = gameDataArray.flatMap((gameData) => gameData.games);
+  //     // Flatten the array of game data objects
+  //     const allGamesData = gameDataArray.flatMap((gameData) => gameData.games);
       
-      setLoading(false);
-      setGames(allGamesData);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //     setLoading(false);
+  //     setGames(allGamesData);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
-  const showCurrentlyPlaying = async (filteredGames) => {
-    setLoading(true);
-    try {
-      const gamePromises = filteredGames.map(async (game) => {
-        const gameId = game.game;
-        const igdb_response = await api.post("v1/collection/view/", { idQuery: gameId });
-        return igdb_response.data;
-      });
+  // const showCurrentlyPlaying = async (filteredGames) => {
+  //   setLoading(true);
+  //   try {
+  //     const gamePromises = filteredGames.map(async (game) => {
+  //       const gameId = game.game;
+  //       const igdb_response = await api.post("v1/collection/view/", { idQuery: gameId });
+  //       return igdb_response.data;
+  //     });
 
-      const gameDataArray = await Promise.all(gamePromises);
+  //     const gameDataArray = await Promise.all(gamePromises);
 
-      // Flatten the array of game data objects
-      const allGamesData = gameDataArray.flatMap((gameData) => gameData.games);
+  //     // Flatten the array of game data objects
+  //     const allGamesData = gameDataArray.flatMap((gameData) => gameData.games);
 
-      setLoading(false);
-      setGames(allGamesData);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //     setLoading(false);
+  //     setGames(allGamesData);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
 
 

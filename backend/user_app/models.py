@@ -3,9 +3,8 @@ from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 class App_user(AbstractUser):
-    email = models.EmailField(unique=True)
-    user_name = models.CharField(max_length=30, unique=True, blank=True, null=True)
-    USERNAME_FIELD ='email'
+    USERNAME_FIELD ='username'
+    EMAIL_FIELD ='email'
     REQUIRED_FIELDS=[]
 
 class APIKey(models.Model):
