@@ -1,1 +1,1 @@
-#Gw2-Central
+#Gw2-Legendary-Tool
