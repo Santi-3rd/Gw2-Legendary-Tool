@@ -12,11 +12,17 @@ export const LegendaryRecipePage = () => {
         const fetchData = async () => {
     
           try {
-            const response = await api.get("https://api.guildwars2.com/v2/recipes/search?output=29166");
-            console.log(response.data[0]);
+            const response = await api.get("https://api.guildwars2.com/v2/recipes/search?input=71163");
+            console.log(response.data);
             const response_2 = await api.get(`https://api.guildwars2.com/v2/items/30684`);
             setIcon(response_2.data.icon);
-            console.log(response_2.data.icon)
+            console.log(response_2.data)
+
+            const response_3 = await api.get(`https://api.guildwars2.com/v2/recipes/${10519}`);
+            console.log(response_3)
+
+            const legendaries = await api.get(`recipes/search`);
+            console.log(legendaries)
           } catch (error) {
             console.error(error);
           }

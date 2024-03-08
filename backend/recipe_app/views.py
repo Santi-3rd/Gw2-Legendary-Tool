@@ -20,7 +20,7 @@ class All_Recipes(APIView):
 class Recipes_For_Item(APIView): #searches for the recipes that craft an item.
 
     def get(self, request):
-        recipes_endpoint = "https://api.guildwars2.com/v2/recipes/search?output=50065" #needs int variable for output's number
+        recipes_endpoint = "https://api.guildwars2.com/v2/legendaryarmory/30684" #needs int variable for output's number
 
         recipes_response = requests.get(recipes_endpoint)
         recipes_data = recipes_response.json()
@@ -28,6 +28,7 @@ class Recipes_For_Item(APIView): #searches for the recipes that craft an item.
         response_data = {
             "recipes" : recipes_data
         }
+        print(recipes_data)
 
         return Response(response_data, status=recipes_response.status_code)
     
