@@ -22,10 +22,10 @@ function App() {
       api.defaults.headers.common["Authorization"] = `Token ${token}`
       let response = await api.get("users/")
       setUser(response.data)
+      console.log(response)
     }
     else {
       setUser(null)
-      navigate("/login")
     }
   }
 
@@ -50,6 +50,7 @@ function App() {
         console.log(response.data);
         const response_2 = await api.get(`https://api.guildwars2.com/v2/items/${12345}`);
         setIcon(response_2.data.icon);
+        console.log(response_2.data.icon)
       } catch (error) {
         console.error(error);
       }
@@ -61,8 +62,7 @@ function App() {
 
   return (
     <div id="app">
-      <header>
-        <nav>
+        {/* <nav>
           { 
             user
             ?
@@ -76,12 +76,10 @@ function App() {
             <Link to="/login">Log In</Link>
             </>
           }
-        </nav>
+        </nav> */}
         <div>
-          
           <img src={`${icon}`}></img>
         </div>
-      </header>
       <userContext.Provider value={{ user, setUser, games, setGames }}>
         <Outlet />
       </userContext.Provider>

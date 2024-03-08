@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { ProfilePage } from "./pages/ProfilePage"
 import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
+import { LegendaryRecipePage } from "./pages/LegendaryRecipePage";
 import App from "./App";
 
 
@@ -12,6 +13,10 @@ export const router = createBrowserRouter([
         children: [
             {
                 index: true,
+                element:<LegendaryRecipePage/>,
+            },
+            {
+                page: "register",
                 element: <RegisterPage />,
             },
             {
