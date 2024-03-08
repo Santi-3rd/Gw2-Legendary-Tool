@@ -42,23 +42,6 @@ function App() {
       navigate("/login");
     }
   }
-  useEffect(() => {        
-    const fetchData = async () => {
-
-      try {
-        const response = await api.get("recipes/search/");
-        console.log(response.data);
-        const response_2 = await api.get(`https://api.guildwars2.com/v2/items/${12345}`);
-        setIcon(response_2.data.icon);
-        console.log(response_2.data.icon)
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
 
   return (
     <div id="app">
