@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'user_app',
     'recipe_app',
-    'item_app',
+    'legendary_app',
 ]
 
 MIDDLEWARE = [

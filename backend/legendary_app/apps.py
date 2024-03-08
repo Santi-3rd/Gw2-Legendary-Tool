@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class ItemAppConfig(AppConfig):
+class LegendaryAppConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'item_app'
+    name = 'legendary_app'
