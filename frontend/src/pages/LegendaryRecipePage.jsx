@@ -7,6 +7,7 @@ import './styles/table.css'
 // import { LegendaryTypeTable } from "../components/legendary-type-table.jsx";
 
 export const LegendaryRecipePage = () => {
+    const [items, setItems] = useState([])
     const [icon, setIcon] = useState([]);
     const [itemName, setItemName] =useState([])
 
@@ -16,21 +17,13 @@ export const LegendaryRecipePage = () => {
     
           try {
             const legendaries = await api.get(`legendary/`);
-            console.log(legendaries.data.id)
-
-            // const response = await api.get("https://api.guildwars2.com/v2/recipes/search?input=71163");
-            // console.log(response.data);
             
-            const item_response = await api.get(`https://api.guildwars2.com/v2/items/${legendaries.data.id[0]}`);
-            setIcon(item_response.data.icon);
-            setItemName(item_response.data.name);
-            console.log(item_response.data);
-
-            // const tp_listing = await api.get(`https://api.guildwars2.com/v2/commerce/listings/30703`)
-            // console.log(tp_listing)
-
-            // const response_3 = await api.get(`https://api.guildwars2.com/v2/recipes/search?output=${legendaries.data.id[0]}`);
-            // console.log(response_3)
+            const itemsData = await Promise.all(legendaries.data.id.map(id => api.get(`https://api.guildwars2.com/v2/items/${id}`)));
+            console.log(itemsData)
+            setItems(itemsData.map(item => ({
+              icon: item.data.icon, 
+              name: item.data.name,
+            })));
 
           } catch (error) {
             console.error(error);
@@ -45,12 +38,15 @@ export const LegendaryRecipePage = () => {
             <TitleNavBar/>
             <ItemNavBar/>
             <div>
-              <table class="main-table">
-                <tr class="main-table">
-                  <img src={`${icon}`}></img>
-                  <td class="main-table"><h3>{itemName}</h3></td>
-                </tr>
-  
+              <table className="main-table">
+                <tbody>
+                  {items.map((item, index) => (
+                    <tr key={index} className="main-table">
+                      <td><img src={item.icon}></img></td>
+                      <td className="main-table">{item.name}</td>
+                    </tr>
+                  ))}
+                </tbody>
               </table>
             </div>
             <RecipeTree/>
