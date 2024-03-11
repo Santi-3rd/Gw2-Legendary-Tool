@@ -4,7 +4,7 @@ import { TitleNavBar } from "../components/title-nav-bar.jsx";
 import { ItemNavBar } from "../components/item-nav-bar.jsx";
 import { RecipeTree } from "../components/recipe-tree.jsx";
 import './styles/table.css'
-// import { LegendaryTypeTable } from "../components/legendary-type-table.jsx";
+import { LegendaryTypeTable } from "../components/legendary-type-table.jsx";
 
 export const LegendaryRecipePage = () => {
     const [items, setItems] = useState([])
@@ -38,19 +38,7 @@ export const LegendaryRecipePage = () => {
         <div>
             <TitleNavBar/>
             <ItemNavBar setSelectedType={setSelectedType}/>
-            <div>
-              <table className="main-table">
-                <tbody>
-                  {filteredItems.map((item, index) => (
-                    <tr key={index} className="main-table">
-                      <td><img src={item.icon}></img></td>
-                      <td className="main-table">{item.name}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <RecipeTree/>
+            <LegendaryTypeTable filteredItems={filteredItems} />
         </div>
     )
 }
