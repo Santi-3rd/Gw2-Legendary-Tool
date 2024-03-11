@@ -8,10 +8,8 @@ import './styles/table.css'
 
 export const LegendaryRecipePage = () => {
     const [items, setItems] = useState([])
-    const [icon, setIcon] = useState([]);
-    const [itemName, setItemName] =useState([])
-
-
+    const [selectedType, setSelectedType] = useState('')
+    
     useEffect(() => {        
         const fetchData = async () => {
     
@@ -23,6 +21,7 @@ export const LegendaryRecipePage = () => {
             setItems(itemsData.map(item => ({
               icon: item.data.icon, 
               name: item.data.name,
+              type: item.data.type,
             })));
 
           } catch (error) {
@@ -32,15 +31,17 @@ export const LegendaryRecipePage = () => {
     
         fetchData();
       }, []);
+
+      const filteredItems = items.filter(item => item.type === selectedType);
     
     return (
         <div>
             <TitleNavBar/>
-            <ItemNavBar/>
+            <ItemNavBar setSelectedType={setSelectedType}/>
             <div>
               <table className="main-table">
                 <tbody>
-                  {items.map((item, index) => (
+                  {filteredItems.map((item, index) => (
                     <tr key={index} className="main-table">
                       <td><img src={item.icon}></img></td>
                       <td className="main-table">{item.name}</td>
