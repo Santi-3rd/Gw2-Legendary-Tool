@@ -9,37 +9,52 @@ import { LegendaryTypeTable } from "../components/legendary-type-table.jsx";
 export const LegendaryRecipePage = () => {
     const [items, setItems] = useState([])
     const [selectedType, setSelectedType] = useState('')
+    const [currentPage, setCurrentPage] = useState(1)
+    const [itemsPerPage, setItemsPerPage] = useState(10)
     
     useEffect(() => {        
-        const fetchData = async () => {
-    
-          try {
-            const legendaries = await api.get(`legendary/`);
-            
-            const itemsData = await Promise.all(legendaries.data.id.map(id => api.get(`https://api.guildwars2.com/v2/items/${id}`)));
-            console.log(itemsData)
-            setItems(itemsData.map(item => ({
-              icon: item.data.icon, 
-              name: item.data.name,
-              type: item.data.type,
-            })));
+      const fetchData = async () => {
 
-          } catch (error) {
-            console.error(error);
-          }
-        };
-    
-        fetchData();
-      }, []);
+        try {
+          //Gets all the legendary equipment's ids
+          const legendaries = await api.get(`legendary/`);
+          
+          //Gets the legendary equipment's data by using it's id
+          const itemsData = await Promise.all(legendaries.data.id.map(id => api.get(`https://api.guildwars2.com/v2/items/${id}`))); 
+          console.log(itemsData)
+          setItems(itemsData.map(item => ({
+            icon: item.data.icon, 
+            name: item.data.name,
+            type: item.data.type,
+          })));
 
-      const filteredItems = items.filter(item => item.type === selectedType);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      fetchData();
+    }, []);
+
+    //Filters by type
+    const filteredItems = items.filter(item => item.type === selectedType);
+
+    // Get current items
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
     
-    return (
-        <div>
-            <TitleNavBar/>
-            <ItemNavBar setSelectedType={setSelectedType}/>
-            <LegendaryTypeTable filteredItems={filteredItems} />
-        </div>
-    )
+  return (
+      <div>
+          <TitleNavBar/>
+          <ItemNavBar setSelectedType={setSelectedType}/>
+          <LegendaryTypeTable 
+            currentItems={currentItems} 
+            itemsPerPage={itemsPerPage} 
+            setCurrentPage={setCurrentPage} 
+            totalItems={filteredItems.length} 
+          />
+      </div>
+  )
 }
 
