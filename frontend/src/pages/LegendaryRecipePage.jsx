@@ -7,7 +7,7 @@ import './styles/table.css'
 import { LegendaryTypeTable } from "../components/legendary-type-table.jsx";
 
 export const LegendaryRecipePage = () => {
-    const [items, setItems] = useState([])
+    const [Items, setItems] = useState([])
     const [selectedType, setSelectedType] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(10)
@@ -28,6 +28,10 @@ export const LegendaryRecipePage = () => {
             type: item.data.type,
           })));
 
+          //Gets the legendary equipment's TP buy and sell price by using it's id
+          // const TpPrices =  api.get(`TradingPost/`); 
+          // console.log(TpPrices)
+
         } catch (error) {
           console.error(error);
         }
@@ -37,7 +41,7 @@ export const LegendaryRecipePage = () => {
     }, []);
 
     //Filters by type
-    const filteredItems = items.filter(item => item.type === selectedType);
+    const filteredItems = Items.filter(item => item.type === selectedType);
 
     // Get current items
     const indexOfLastItem = currentPage * itemsPerPage;
