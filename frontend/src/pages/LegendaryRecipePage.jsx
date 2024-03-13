@@ -22,15 +22,22 @@ export const LegendaryRecipePage = () => {
           //Gets the legendary equipment's data by using it's id
           const itemsData = await Promise.all(legendaries.data.id.map(id => api.get(`https://api.guildwars2.com/v2/items/${id}`))); 
           console.log(itemsData)
+          
+          //Gets the legendary equipment's TP buy and sell price by using it's id
+          // const TradingPostBuyPrices = await Promise.all(legendaries.data.id.map(id => api.get(`tradingpost/buy_price/${id}`)));
+
+          const TradingPostSellPrices = await api.get(`tradingpost/sell_price/${30698}`);
+
+          console.log(`Buy Price: 0, Sell Price: ${TradingPostSellPrices.data}`);
+
+
           setItems(itemsData.map(item => ({
             icon: item.data.icon, 
             name: item.data.name,
             type: item.data.type,
           })));
 
-          //Gets the legendary equipment's TP buy and sell price by using it's id
-          const TradingPostPrices =  await Promise.all(legendaries.data.id.map(id => api.get(`TradingPost/${id}`, { id: id }))); 
-          console.log(TradingPostPrices)
+  
 
         } catch (error) {
           console.error(error);
