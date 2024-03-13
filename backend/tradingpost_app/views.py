@@ -5,38 +5,28 @@ from rest_framework.status import HTTP_201_CREATED, HTTP_204_NO_CONTENT, HTTP_20
 import requests
 
 # Create your views here.
-class Trading_Post_Buy_Price(APIView):
+class Trading_Post_Prices(APIView):
     def get(self, request, id):
         item_id = id
 
         trading_post_endpoint = f'https://api.guildwars2.com/v2/commerce/prices/{item_id}'
 
         response = requests.get(trading_post_endpoint)
-        
-        if response.json().get('text'): 
-            return Response('Untradable')
+        price_data = response.json()
+        print(price_data)
+
+        if response.status_code == 404:
+            price_data = {
+                "buy_price" : 'Untradable',
+                "sell_price" : 'Untradable',
+            }
+            print(price_data)
+            return Response(price_data)
         else:
-            buy_price_data = response.json()['buys']['unit_price']
-            buy_price_data = {
-                "id" : item_id,
-                "price" : buy_price_data
+            price_data = response.json()
+            price_data = {
+                "buy_price" : price_data['buys']['unit_price'],
+                "sell_price" : price_data['sells']['unit_price'],
             }
-            
-            return Response(buy_price_data, status=response.status_code)
-
-class Trading_Post_Sell_Price(APIView):
-    def get(self, request, id):
-        item_id = id
-        
-        trading_post_endpoint = f'https://api.guildwars2.com/v2/commerce/prices/{item_id}'
-
-        response = requests.get(trading_post_endpoint)
-        print(response.json())
-        sell_price_data = response.json()
-
-        sell_price_data = {
-                "id" : item_id,
-                "price" : sell_price_data
-            }
-
-        return Response(sell_price_data, status=response.status_code)
+            print(price_data)
+            return Response(price_data, status=response.status_code)

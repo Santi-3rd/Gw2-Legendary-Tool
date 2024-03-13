@@ -24,12 +24,16 @@ export const LegendaryRecipePage = () => {
           console.log(itemsData)
           
           //Gets the legendary equipment's TP buy and sell price by using it's id
-          // const TradingPostBuyPrices = await Promise.all(legendaries.data.id.map(id => api.get(`tradingpost/buy_price/${id}`)));
+          const TradingPostPrices = await  api.get(`tradingpost/prices?${19684}, ${19709}`);
 
-          const TradingPostSellPrices = await api.get(`tradingpost/sell_price/${30698}`);
+          console.log(TradingPostPrices)
 
-          console.log(`Buy Price: 0, Sell Price: ${TradingPostSellPrices.data}`);
-
+          // TradingPostPrices.forEach(item => {
+          //   console.log('Sell Price:')
+          //   console.log(item.data.sell_price)
+          //   console.log('Buy Price:')
+          //   console.log(item.data.buy_price)
+          // })
 
           setItems(itemsData.map(item => ({
             icon: item.data.icon, 

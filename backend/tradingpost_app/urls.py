@@ -1,7 +1,6 @@
 from django.urls import path
-from .views import Trading_Post_Buy_Price, Trading_Post_Sell_Price
+from .views import Trading_Post_Prices
 
 urlpatterns = [
-    path('buy_price/<int:id>/', Trading_Post_Buy_Price.as_view(), name='trading_post_buy_price'),
-    path('sell_price/<int:id>/', Trading_Post_Sell_Price.as_view(), name='trading_post_sell_price')
+    path('prices/<int:id>/', Trading_Post_Prices.as_view(), name='trading_post_prices'),
 ]
