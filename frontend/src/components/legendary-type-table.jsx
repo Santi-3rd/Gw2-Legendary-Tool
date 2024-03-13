@@ -27,6 +27,7 @@ export const LegendaryTypeTable = ({currentItems, itemsPerPage, setCurrentPage, 
               :
             <></>
           }
+          {/* Creates page number buttons*/}
         <div className="pagination">
             {Array(Math.ceil(totalItems / itemsPerPage)).fill().map((_, index) => (
               <button onClick={() => setCurrentPage(index + 1)}>{index + 1}</button>

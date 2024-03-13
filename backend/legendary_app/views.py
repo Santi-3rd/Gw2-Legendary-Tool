@@ -15,7 +15,6 @@ class All_Legendaries(APIView): #searches for the recipes that craft an item.
         legendaries_data = {
             "id" : legendaries_data
         }
-        print(legendaries_data)
 
         return Response(legendaries_data, status=legendaries_response.status_code)
     

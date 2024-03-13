@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'user_app',
     'recipe_app',
     'legendary_app',
+    'tradingpost_app',
 ]
 
 MIDDLEWARE = [

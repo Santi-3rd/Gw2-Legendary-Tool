@@ -29,8 +29,8 @@ export const LegendaryRecipePage = () => {
           })));
 
           //Gets the legendary equipment's TP buy and sell price by using it's id
-          // const TpPrices =  api.get(`TradingPost/`); 
-          // console.log(TpPrices)
+          const TradingPostPrices =  await Promise.all(legendaries.data.id.map(id => api.get(`TradingPost/${id}`, { id: id }))); 
+          console.log(TradingPostPrices)
 
         } catch (error) {
           console.error(error);
