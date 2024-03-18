@@ -24,9 +24,9 @@ export const LegendaryRecipePage = () => {
           console.log(itemsData)
           
           //Gets the legendary equipment's TP buy and sell price by using it's id
-          const TradingPostPrices = await  api.get(`tradingpost/prices?${19684}, ${19709}`);
+          // const TradingPostPrices = await  api.get(`tradingpost/prices?${19684}, ${19709}`);
 
-          console.log(TradingPostPrices)
+          // console.log(TradingPostPrices)
 
           // TradingPostPrices.forEach(item => {
           //   console.log('Sell Price:')
@@ -62,7 +62,10 @@ export const LegendaryRecipePage = () => {
   return (
       <div>
           <TitleNavBar/>
-          <ItemNavBar setSelectedType={setSelectedType}/>
+          <ItemNavBar 
+            setSelectedType={setSelectedType}
+            setCurrentPage={setCurrentPage}
+          />
           <LegendaryTypeTable 
             currentItems={currentItems} 
             itemsPerPage={itemsPerPage} 

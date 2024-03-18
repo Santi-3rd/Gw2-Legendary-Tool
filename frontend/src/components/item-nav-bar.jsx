@@ -1,15 +1,22 @@
 import './styles/item-nav-bar.css'
 
-export const ItemNavBar = ({setSelectedType}) => {
+export const ItemNavBar = ({setSelectedType, setCurrentPage}) => {
+
+    function handleClickType(type) {
+        setSelectedType(type);
+        setCurrentPage(1);
+    }
+
+
     return (
         <div>
             <nav className='navbar'>
-                <span onClick={() =>setSelectedType ('Weapon')}>Weapons</span>
-                <span onClick={() =>setSelectedType ('Armor')}>Armor</span>
-                <span onClick={() =>setSelectedType ('Back')}>Back Items</span>
-                <span onClick={() =>setSelectedType ('Trinket')}>Trinkets</span>
-                <span onClick={() =>setSelectedType ('UpgradeComponent')}>Upgrade Components</span>
-                <span onClick={() =>setSelectedType ('Relic')}>Relics</span>
+                <span onClick={() => handleClickType ('Weapon')}>Weapons</span>
+                <span onClick={() => handleClickType ('Armor')}>Armor</span>
+                <span onClick={() => handleClickType ('Back')}>Back Items</span>
+                <span onClick={() => handleClickType ('Trinket')}>Trinkets</span>
+                <span onClick={() => handleClickType ('UpgradeComponent')}>Upgrade Components</span>
+                <span onClick={() => handleClickType ('Relic')}>Relics</span>
             </nav>
         </div>
     )
